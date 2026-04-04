@@ -1,0 +1,4 @@
+{
+  "build": {"outputDirectory": "public"},
+  "framework": {"name": "static"}
+}
