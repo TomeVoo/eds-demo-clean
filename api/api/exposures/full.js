@@ -1,4 +1,5 @@
-import { Pool } from "pg";
+import pkg from "pg";
+const { Pool } = pkg;
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -13,10 +14,9 @@ export default async function handler(req, res) {
       "SELECT * FROM exposure_full_mview WHERE id = $1 LIMIT 1",
       [id]
     );
-
     res.status(200).json(q.rows[0] || { error: "Not found" });
-
   } catch (e) {
+    console.error(e);
     res.status(500).json({ error: e.toString() });
   }
 }
