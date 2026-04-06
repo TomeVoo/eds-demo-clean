@@ -1,7 +1,15 @@
-export default function handler(req, res) {
-  res.status(200).json([
-    { id: "HALAS", name: "Hałas" },
-    { id: "DRGANIA", name: "Drgania mechaniczne" },
-    { id: "PYLY", name: "Pyły przemysłowe" }
-  ]);
+import { Pool } from "pg";
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
+});
+
+export default async function handler(req, res) {
+  try {
+    const q = await pool.query("SELECT id, name FROM exposures ORDER BY id LIMIT 50");
+    res.status(200).json(q.rows);
+  } catch (e) {
+    res.status(500).json({ error: e.toString() });
+  }
 }
