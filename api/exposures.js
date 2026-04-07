@@ -1,19 +1,8 @@
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
-);
-
 export default async function handler(req, res) {
-  const { data, error } = await supabase
-    .from("exposures")
-    .select("id, name")
-    .order("id");
-
-  if (error) {
-    return res.status(500).json({ error: error.message });
-  }
-
-  return res.status(200).json(data);
+  return res.status(200).json({
+    supabaseUrlExists: Boolean(process.env.SUPABASE_URL),
+    supabaseAnonKeyExists: Boolean(process.env.SUPABASE_ANON_KEY),
+    supabaseUrl: process.env.SUPABASE_URL || null,
+    nodeEnv: process.env.NODE_ENV || null
+  });
 }
