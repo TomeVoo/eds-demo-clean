@@ -1,37 +1,56 @@
 document.addEventListener("DOMContentLoaded", () => {
   const listEl = document.getElementById("exposuresList");
   const detailsEl = document.getElementById("detailsContent");
+
   let activeItem = null;
 
+  // =========================
+  // API BASE (Vercel)
+  // =========================
+  const API_BASE = "https://eds-demo-clean.vercel.app/api";
+
+  // =========================
+  // LOAD EXPOSURES LIST
+  // =========================
   async function loadExposures() {
-    const res = await fetch("/api/exposures");
-    const data = await res.json();
+    try {
+      const res = await fetch(`${API_BASE}/exposures`);
+      const data = await res.json();
 
-    listEl.innerHTML = "";
-    data.forEach(exp => {
-      const li = document.createElement("li");
-      li.textContent = exp.name;
-      li.onclick = () => selectExposure(exp.id, li);
-      listEl.appendChild(li);
-    });
+      listEl.innerHTML = "";
+
+      data.forEach(exp => {
+        const li = document.createElement("li");
+        li.textContent = exp.name;
+        li.style.cursor = "pointer";
+
+        li.onclick = () => selectExposure(exp.id, li);
+
+        listEl.appendChild(li);
+      });
+    } catch (err) {
+      console.error("Błąd pobierania narażeń", err);
+      listEl.innerHTML = "<li>Błąd ładowania danych</li>";
+    }
   }
 
-  async function selectExposure(id, el) {
+  // =========================
+  // SELECT EXPOSURE
+  // =========================
+  async function selectExposure(id, element) {
     if (activeItem) activeItem.classList.remove("active");
-    activeItem = el;
-    el.classList.add("active");
+    activeItem = element;
+    activeItem.classList.add("active");
 
-    const res = await fetch(`/api/exposures/full?id=${id}`);
-    const data = await res.json();
-
-    let html = `<h2>${data.name}</h2><p>${data.description || ""}</p>`;
-    html += `<ul>`;
-    data.examinations.forEach(ex => {
-      html += `<li><strong>${ex.name}</strong> (${ex.required ? "wymagane" : "opcjonalne"})</li>`;
-    });
-    html += `</ul>`;
-    detailsEl.innerHTML = html;
+    try {
+      const res = await fetch(`${API_BASE}/exposures/full?id=${id}`);
+      const data = await res.json();
+      renderDetails(data);
+    } catch (err) {
+      console.error("Błąd pobierania szczegółów", err);
+      detailsEl.innerHTML = "Błąd ładowania danych";
+    }
   }
 
-  loadExposures();
-});
+  // =========================
+  // RENDER DETAILS (EDS)
