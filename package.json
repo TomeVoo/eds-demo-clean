@@ -1,12 +1,8 @@
 {
-  "name": "eds-demo-pro",
+  "name": "eds-demo-clean",
   "version": "1.0.0",
+  "private": true,
   "type": "module",
-  "dependencies": {
-    "pg": "8.11.1"
-  }
-}
-{
   "dependencies": {
     "@supabase/supabase-js": "^2.43.0"
   }
