@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
 <head>
   <meta charset="UTF-8" />
-  <title>EDS Demo PRO</title>
-  styles.css
+  <title>EDS – UI testowe</title>
 </head>
 <body>
 
-  <h1>EDS Demo PRO ✅</h1>
+  <h1>EDS – cienkie UI testowe</h1>
 
-  <div class="box">
-    <label>Wybierz narażenie:</label>
-    <select id="exposureSelect"></select>
-    <button onclick="loadExposure()">Pokaż szczegóły</button>
+  <h2>Lista narażeń</h2>
+  <ul id="exposures"></ul>
+
+  <hr />
+
+  <h2>Szczegóły narażenia</h2>
+  <div id="details">
+    <em>Wybierz narażenie z listy</em>
   </div>
 
-  <pre id="output"></pre>
-
-  app.js
+  <script src="app.js"></script>
 </body>
 </html>
+``
