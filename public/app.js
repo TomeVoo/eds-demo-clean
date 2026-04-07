@@ -64,7 +64,10 @@ document.addEventListener("DOMContentLoaded", () => {
       html += `<span class="tag">Kategoria: ${data.category}</span>`;
     }
 
-    html += `<div class="section exams"><h3>Wymagane badania</h3>`;
+    html += `
+      <div class="section exams">
+        <h3>Wymagane badania</h3>
+    `;
 
     if (!data.examinations || data.examinations.length === 0) {
       html += `<p>Brak zdefiniowanych badań.</p>`;
@@ -74,3 +77,4 @@ document.addEventListener("DOMContentLoaded", () => {
         html += `
           <li style="margin-bottom: 14px;">
             <strong>${ex.name}</strong>
+            <span class="${ex.required ? "required" : "optional"}">
