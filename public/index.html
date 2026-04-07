@@ -2,23 +2,32 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8" />
-  <title>EDS – UI testowe</title>
+  <title>EDS – Exposure Decision System</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-  <h1>EDS – cienkie UI testowe</h1>
+<header class="app-header">
+  <h1>EDS – System Doboru Badań</h1>
+  <span class="subtitle">Exposure Decision System</span>
+</header>
 
-  <h2>Lista narażeń</h2>
-  <ul id="exposures"></ul>
+<div class="app-container">
 
-  <hr />
+  <aside class="sidebar">
+    <h2>Narażenia</h2>
+    <ul id="exposuresList"></ul>
+  </aside>
 
-  <h2>Szczegóły narażenia</h2>
-  <div id="details">
-    <em>Wybierz narażenie z listy</em>
-  </div>
+  <main class="details">
+    <div id="detailsContent" class="placeholder">
+      Wybierz narażenie z listy po lewej stronie
+    </div>
+  </main>
 
-  <script src="app.js"></script>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
 ``
