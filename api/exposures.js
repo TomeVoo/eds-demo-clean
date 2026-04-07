@@ -1,8 +1,19 @@
+import pkg from "pg";
+const { Pool } = pkg;
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
+});
+
 export default async function handler(req, res) {
-  res.status(200).json({
-    databaseUrlExists: !!process.env.DATABASE_URL,
-    databaseUrlValue: process.env.DATABASE_URL || null,
-    nodeEnv: process.env.NODE_ENV || null
-  });
+  try {
+    const q = await pool.query(
+      "SELECT id, name FROM exposures ORDER BY id"
+    );
+    res.status(200).json(q.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
 }
-``
