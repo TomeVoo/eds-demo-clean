@@ -1,20 +1,19 @@
-import pkg from "pg";
-const { Pool } = pkg;
+import { createClient } from "@supabase/supabase-js";
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true,          // ← TO JEST KLUCZOWE
-  max: 1              // ← bardzo ważne dla serverless
-});
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_ANON_KEY
+);
 
 export default async function handler(req, res) {
-  try {
-    const q = await pool.query(
-      "SELECT id, name FROM exposures ORDER BY id"
-    );
-    res.status(200).json(q.rows);
-  } catch (err) {
-    console.error("DB ERROR:", err);
-    res.status(500).json({ error: String(err) });
+  const { data, error } = await supabase
+    .from("exposures")
+    .select("id, name")
+    .order("id");
+
+  if (error) {
+    return res.status(500).json({ error: error.message });
   }
+
+  return res.status(200).json(data);
 }
