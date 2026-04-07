@@ -1,23 +1,22 @@
-import pkg from "pg";
-const { Pool } = pkg;
+import { createClient } from "@supabase/supabase-js";
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true,
-  max: 1
-});
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_ANON_KEY
+);
 
 export default async function handler(req, res) {
   const { id } = req.query;
 
-  try {
-    const q = await pool.query(
-      "SELECT * FROM exposure_full_mview WHERE id = $1",
-      [id]
-    );
-    res.status(200).json(q.rows[0] || {});
-  } catch (err) {
-    console.error("DB ERROR:", err);
-    res.status(500).json({ error: String(err) });
+  const { data, error } = await supabase
+    .from("exposure_full_mview")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    return res.status(500).json({ error: error.message });
   }
+
+  return res.status(200).json(data || {});
 }
