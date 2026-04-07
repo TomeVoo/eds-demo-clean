@@ -1,7 +1,24 @@
+import pkg from "pg";
+const { Pool } = pkg;
 
-import { Pool } from 'pg';
-const pool=new Pool({ connectionString:process.env.DATABASE_URL, ssl:{rejectUnauthorized:false}});
-export default async function handler(req,res){
- const {id}=req.query;
- try{ const q=await pool.query('SELECT * FROM exposure_full_mview WHERE id=$1',[id]); res.status(200).json(q.rows?.[0]||{});}catch(e){res.status(500).json({error:e.toString()});}
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
+
+export default async function handler(req, res) {
+  const { id } = req.query;
+
+  try {
+    const q = await pool.query(
+      "SELECT * FROM exposure_full_mview WHERE id = $1",
+      [id]
+    );
+    res.status(200).json(q.rows[0] || {});
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
 }
