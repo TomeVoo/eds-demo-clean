@@ -8,11 +8,11 @@ const supabase = createClient(
 export default async function handler(req, res) {
   const { data, error } = await supabase
     .from("exposures")
-    .select("id, name")
+    .select("id, name, description")
+    .eq("active", true)
     .order("id");
 
   if (error) {
-    console.error(error);
     return res.status(500).json({ error: error.message });
   }
 
