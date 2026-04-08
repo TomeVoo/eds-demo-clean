@@ -1,33 +1,13 @@
-export default async function handler(req, res) {
-  // ✅ CORS
+export default function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Content-Type", "application/json");
 
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
+  try {
+    return res.status(200).json([
+      { id: "HALAS", name: "Hałas testowy", description: "TEST OK" },
+      { id: "PYLY", name: "Pyły testowe", description: "TEST OK" }
+    ]);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
   }
-
-  // ---- reszta Twojego kodu ----
-}
-``
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
-);
-
-export default async function handler(req, res) {
-  const { data, error } = await supabase
-    .from("exposures")
-    .select("id, name, description")
-    .eq("active", true)
-    .order("id");
-
-  if (error) {
-    return res.status(500).json({ error: error.message });
-  }
-
-  return res.status(200).json(data);
 }
