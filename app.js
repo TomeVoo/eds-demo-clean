@@ -45,13 +45,13 @@ document.addEventListener("DOMContentLoaded", function () {
       renderDetails(data);
     } catch (err) {
       console.error("Błąd ładowania szczegółów", err);
-      detailsEl.innerHTML = "Błąd ładowania danych";
+      detailsEl.textContent = "Błąd ładowania danych";
     }
   }
 
   function renderDetails(data) {
     if (!data || !data.id) {
-      detailsEl.innerHTML = "Brak danych";
+      detailsEl.textContent = "Brak danych";
       return;
     }
 
