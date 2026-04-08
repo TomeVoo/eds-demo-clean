@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>EDS – Demo POC</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; }
+    h1 { color: #1f3a5f; }
+    h2 { margin-top: 25px; }
+    .box { border: 1px solid #ccc; padding: 15px; margin-top: 15px; }
+    .required { color: green; }
+    .optional { color: orange; }
+  </style>
+</head>
+<body>
+
+<h1>EDS – Demo automatyzacji Medycyny Pracy (POC)</h1>
+
+<div class="box">
+  <h2>Dane pracownika</h2>
+  Wiek:
+  <input type="number" id="age" value="45">
+</div>
+
+<div class="box">
+  <h2>Narażenia</h2>
+  <label><input type="checkbox" value="HAŁAS" checked> Hałas</label><br>
+  <label><input type="checkbox" value="PYLY"> Pyły przemysłowe</label><br>
+  <label><input type="checkbox" value="ZMIANOWA"> Praca zmianowa / nocna</label><br>
+</div>
+
+<button onclick="runEDS()">Pokaż badania</button>
+
+<div class="box">
+  <h2>Wynik EDS</h2>
+  <div id="result">—</div>
+</div>
+
+<script>
+function runEDS() {
+  const age = document.getElementById("age").value;
+  const result = document.getElementById("result");
+  result.innerHTML = "";
+
+  document.querySelectorAll("input[type=checkbox]:checked").forEach(cb => {
+    if (cb.value === "HAŁAS" && age >= 18) {
+      result.innerHTML += "<p class='required'>✅ Audiometria – wymagane co 1 rok<br><small>DLACZEGO: narażenie na hałas</small></p>";
+    }
+    if (cb.value === "PYLY") {
+      result.innerHTML += "<p class='required'>✅ Spirometria – wymagane co 2 lata<br><small>DLACZEGO: pyły przemysłowe</small></p>";
+    }
+    if (cb.value === "ZMIANOWA") {
+      result.innerHTML += "<p class='optional'>⚠️ Konsultacja internistyczna – opcjonalna<br><small>DLACZEGO: praca zmianowa</small></p>";
+    }
+  });
+
+  if (result.innerHTML === "") {
+    result.innerHTML = "<em>Brak badań dla wybranych parametrów</em>";
+  }
+}
+</script>
+
+</body>
+</html>
