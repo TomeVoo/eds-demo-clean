@@ -1,0 +1,10 @@
+{
+  "employee": {
+    "age": 45
+  },
+  "exposures": [
+    "EXP_HAŁAS",
+    "EXP_PYLY",
+    "EXP_ZMIANOWA"
+  ]
+}
