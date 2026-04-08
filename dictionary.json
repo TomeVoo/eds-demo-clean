@@ -1,0 +1,156 @@
+{
+  "dictionaryMetadata": {
+    "name": "POC_Slownik_Narazen_Medycyna_Pracy",
+    "version": "1.0",
+    "validFrom": "2026-01-01",
+    "description": "POC – słownik narażeń i reguł badań MP",
+    "owner": "Medycyna Pracy",
+    "maintainer": "Agnieszka Malec"
+  },
+
+  "exposures": [
+    {
+      "exposureId": "EXP_HAŁAS",
+      "code": "HAŁAS",
+      "name": "Hałas",
+      "category": "FIZYCZNE",
+      "active": true,
+      "rules": [
+        {
+          "ruleId": "RULE_HAŁAS_AUDIOMETRIA",
+          "examinationId": "EXAM_AUDIOMETRIA",
+          "required": true,
+          "frequency": { "value": 1, "unit": "YEAR" },
+          "conditions": { "minAge": 18 },
+          "rationale": "Narażenie na hałas – konieczność monitorowania słuchu"
+        }
+      ]
+    },
+
+    {
+      "exposureId": "EXP_DRGANIA",
+      "code": "DRGANIA_MECHANICZNE",
+      "name": "Drgania mechaniczne",
+      "category": "FIZYCZNE",
+      "active": true,
+      "rules": [
+        {
+          "ruleId": "RULE_DRGANIA_NEURO",
+          "examinationId": "EXAM_NEUROLOGIA",
+          "required": true,
+          "frequency": { "value": 2, "unit": "YEAR" },
+          "conditions": {},
+          "rationale": "Drgania mechaniczne powodują zaburzenia układu nerwowego"
+        }
+      ]
+    },
+
+    {
+      "exposureId": "EXP_PROM_JON",
+      "code": "PROM_JON",
+      "name": "Promieniowanie jonizujące",
+      "category": "FIZYCZNE",
+      "active": true,
+      "rules": [
+        {
+          "ruleId": "RULE_PROM_JON_MORFO",
+          "examinationId": "EXAM_MORFOLOGIA",
+          "required": true,
+          "frequency": { "value": 1, "unit": "YEAR" },
+          "conditions": {},
+          "rationale": "Promieniowanie jonizujące wpływa na układ krwiotwórczy"
+        }
+      ]
+    },
+
+    {
+      "exposureId": "EXP_MONITOR",
+      "code": "MONITOR_EKRANOWY",
+      "name": "Praca przy monitorze ekranowym",
+      "category": "ERGONOMICZNE",
+      "active": true,
+      "rules": [
+        {
+          "ruleId": "RULE_MONITOR_WZROK",
+          "examinationId": "EXAM_WZROK",
+          "required": true,
+          "frequency": { "value": 5, "unit": "YEAR" },
+          "conditions": { "minAge": 18 },
+          "rationale": "Długotrwała praca przy monitorze obciąża narząd wzroku"
+        }
+      ]
+    },
+
+    {
+      "exposureId": "EXP_WYSOKOSC",
+      "code": "PRACA_NA_WYSOKOSCI",
+      "name": "Praca na wysokości",
+      "category": "FIZYCZNE",
+      "active": true,
+      "rules": [
+        {
+          "ruleId": "RULE_WYSOKOSC_ROWN",
+          "examinationId": "EXAM_ROWNOWAGA",
+          "required": true,
+          "frequency": { "value": 1, "unit": "YEAR" },
+          "conditions": {},
+          "rationale": "Praca na wysokości wymaga prawidłowej koordynacji i równowagi"
+        }
+      ]
+    },
+
+    {
+      "exposureId": "EXP_PYLY",
+      "code": "PYLY_PRZEMYSLOWE",
+      "name": "Pyły przemysłowe",
+      "category": "CHEMICZNE",
+      "active": true,
+      "rules": [
+        {
+          "ruleId": "RULE_PYLY_SPIRO",
+          "examinationId": "EXAM_SPIROMETRIA",
+          "required": true,
+          "frequency": { "value": 2, "unit": "YEAR" },
+          "conditions": {},
+          "rationale": "Pyły przemysłowe wpływają na układ oddechowy"
+        }
+      ]
+    },
+
+    {
+      "exposureId": "EXP_TOKSYCZNE",
+      "code": "CHEM_TOKSYCZNE",
+      "name": "Substancje chemiczne toksyczne",
+      "category": "CHEMICZNE",
+      "active": true,
+      "rules": [
+        {
+          "ruleId": "RULE_TOKSYCZNE_WATROBA",
+          "examinationId": "EXAM_PROBY_WATROBOWE",
+          "required": true,
+          "frequency": { "value": 1, "unit": "YEAR" },
+          "conditions": {},
+          "rationale": "Substancje toksyczne mogą uszkadzać narządy wewnętrzne"
+        }
+      ]
+    },
+
+    {
+      "exposureId": "EXP_ZMIANOWA",
+      "code": "PRACA_ZMIANOWA",
+      "name": "Praca zmianowa / nocna",
+      "category": "ORGANIZACYJNE",
+      "active": true,
+      "rules": [
+        {
+          "ruleId": "RULE_ZMIANOWA_INTERNISTA",
+          "examinationId": "EXAM_INTERNISTA",
+          "required": false,
+          "frequency": { "value": 3, "unit": "YEAR" },
+          "conditions": {},
+          "rationale": "Zaburzenie rytmu dobowego wpływa na zdrowie ogólne"
+        }
+      ]
+    }
+  ]
+}
