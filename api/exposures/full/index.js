@@ -7,19 +7,12 @@ export default function handler(req, res) {
     return res.status(200).end();
   }
 
-  const { id } = req.query;
-
   res.status(200).json({
-    id,
-    name: "TEST " + id,
-    description: "Testowe dane szczegółowe",
-    category: "physical",
+    id: req.query.id,
+    name: "TEST OK",
+    description: "Backend działa prawidłowo",
     examinations: [
-      {
-        name: "Badanie testowe",
-        required: true,
-        frequency_years: 1
-      }
+      { name: "Badanie testowe", required: true }
     ]
   });
 }
