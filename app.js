@@ -1,3 +1,6 @@
+
+console.log("APP.JS STARTED");
+
 document.addEventListener("DOMContentLoaded", function () {
   const listEl = document.getElementById("exposuresList");
   const detailsEl = document.getElementById("detailsContent");
