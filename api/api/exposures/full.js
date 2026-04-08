@@ -1,22 +1,25 @@
-import pkg from "pg";
-const { Pool } = pkg;
+export default function handler(req, res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
-});
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
 
-export default async function handler(req, res) {
   const { id } = req.query;
 
-  try {
-    const q = await pool.query(
-      "SELECT * FROM exposure_full_mview WHERE id = $1 LIMIT 1",
-      [id]
-    );
-    res.status(200).json(q.rows[0] || { error: "Not found" });
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: e.toString() });
-  }
+  return res.status(200).json({
+    id,
+    name: "TEST " + id,
+    description: "Testowe dane szczegółowe",
+    category: "physical",
+    examinations: [
+      {
+        name: "Badanie testowe",
+        required: true,
+        frequency_years: 1
+      }
+    ]
+  });
 }
