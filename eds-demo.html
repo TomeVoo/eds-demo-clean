@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -60,6 +61,7 @@
   <h2>Narażenia</h2>
   <label><input type="checkbox" value="HAŁAS" checked> Hałas</label><br>
   <label><input type="checkbox" value="PYLY"> Pyły przemysłowe</label><br>
+  <label><input type="checkbox" value="MONITOR"> Praca przy monitorze ekranowym</label><br>
   <label><input type="checkbox" value="ZMIANOWA"> Praca zmianowa / nocna</label><br>
 </div>
 
@@ -82,7 +84,7 @@
 
 <script>
 function runEDS() {
-  const age = document.getElementById("age").value;
+  const age = Number(document.getElementById("age").value);
   const result = document.getElementById("result");
 
   result.innerHTML = "";
@@ -99,6 +101,7 @@ function runEDS() {
 
   document.querySelectorAll("input[type=checkbox]:checked").forEach(cb => {
 
+    // HAŁAS – warunek wiekowy ≥ 18
     if (cb.value === "HAŁAS" && age >= 18) {
       hasResults = true;
       result.innerHTML +=
@@ -106,6 +109,7 @@ function runEDS() {
         "<small>DLACZEGO: narażenie na hałas wymaga regularnej kontroli słuchu.</small></p>";
     }
 
+    // PYŁY – bez warunku wieku
     if (cb.value === "PYLY") {
       hasResults = true;
       result.innerHTML +=
@@ -113,6 +117,22 @@ function runEDS() {
         "<small>DLACZEGO: narażenie na pyły przemysłowe wpływa na układ oddechowy.</small></p>";
     }
 
+    // MONITOR – REGUŁA WIEKOWA
+    if (cb.value === "MONITOR" && age < 40) {
+      hasResults = true;
+      result.innerHTML +=
+        "<p class='required'>✅ <strong>Badanie wzroku</strong> – badanie wymagane (co 5 lat)<br>" +
+        "<small>DLACZEGO: praca przy monitorze do 40 r.ż. wymaga okresowej kontroli wzroku.</small></p>";
+    }
+
+    if (cb.value === "MONITOR" && age >= 40) {
+      hasResults = true;
+      result.innerHTML +=
+        "<p class='required'>✅ <strong>Badanie wzroku</strong> – badanie wymagane (co 2 lata)<br>" +
+        "<small>DLACZEGO: po 40 r.ż. praca przy monitorze wymaga częstszej kontroli wzroku.</small></p>";
+    }
+
+    // PRACA ZMIANOWA – opcjonalne
     if (cb.value === "ZMIANOWA") {
       hasResults = true;
       result.innerHTML +=
