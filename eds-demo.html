@@ -4,24 +4,58 @@
   <meta charset="UTF-8">
   <title>EDS – Demo POC</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 30px; }
-    h1 { color: #1f3a5f; }
-    h2 { margin-top: 25px; }
-    .box { border: 1px solid #ccc; padding: 15px; margin-top: 15px; }
-    .required { color: green; }
-    .optional { color: orange; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background: #ffffff;
+      color: #222;
+    }
+    h1 {
+      color: #1f3a5f;
+    }
+    h2 {
+      margin-top: 25px;
+    }
+    .box {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-top: 15px;
+      background: #fafafa;
+    }
+    .required {
+      color: #1a7f37;
+    }
+    .optional {
+      color: #b7791f;
+    }
+    .note {
+      font-size: 14px;
+      color: #555;
+    }
   </style>
 </head>
 <body>
 
-<h1>EDS – Demo automatyzacji Medycyny Pracy (POC)</h1>
+<h1>Automatyzacja słownika narażeń – Demo POC</h1>
 
+<!-- WPROWADZENIE -->
+<div class="box">
+  <strong>Demonstracja koncepcji (POC)</strong><br><br>
+  To krótkie demo pokazuje, w jaki sposób można podejść do uporządkowania
+  narażeń i zasad badań Medycyny Pracy.<br><br>
+  Na prostym przykładzie widać, jak – bazując na zgłoszonych narażeniach
+  i wieku pracownika – można w sposób spójny i powtarzalny wskazać zakres badań,
+  bez ręcznego ustalania każdego przypadku od zera.
+</div>
+
+<!-- DANE PRACOWNIKA -->
 <div class="box">
   <h2>Dane pracownika</h2>
   Wiek:
-  <input type="number" id="age" value="45">
+  <input type="number" id="age" value="45" min="0" max="100">
 </div>
 
+<!-- NARAŻENIA -->
 <div class="box">
   <h2>Narażenia</h2>
   <label><input type="checkbox" value="HAŁAS" checked> Hałas</label><br>
@@ -29,10 +63,20 @@
   <label><input type="checkbox" value="ZMIANOWA"> Praca zmianowa / nocna</label><br>
 </div>
 
-<button onclick="runEDS()">Pokaż badania</button>
+<button style="margin-top:15px;" onclick="runEDS()">Wyznacz zakres badań</button>
 
+<!-- WYNIKI -->
 <div class="box">
-  <h2>Wynik EDS</h2>
+  <h2>Proponowany zakres badań</h2>
+
+  <p class="note">
+    <strong>Wynik demonstracyjny.</strong><br>
+    Poniższy zakres badań został wyliczony na podstawie przyjętych zasad
+    i przykładowego słownika narażeń.<br>
+    Nie stanowi decyzji medycznej ani dokumentu formalnego –
+    służy jako punkt wyjścia do rozmowy o podejściu i logice.
+  </p>
+
   <div id="result">—</div>
 </div>
 
@@ -40,23 +84,54 @@
 function runEDS() {
   const age = document.getElementById("age").value;
   const result = document.getElementById("result");
+
   result.innerHTML = "";
 
+  // Wprowadzenie do logiki wyniku
+  result.innerHTML +=
+    "<p class='note'><em>" +
+    "Każde badanie pojawia się dlatego, że zostało powiązane " +
+    "z konkretnym narażeniem oraz spełnione zostały przyjęte warunki " +
+    "(np. wiek pracownika)." +
+    "</em></p>";
+
+  let hasResults = false;
+
   document.querySelectorAll("input[type=checkbox]:checked").forEach(cb => {
+
     if (cb.value === "HAŁAS" && age >= 18) {
-      result.innerHTML += "<p class='required'>✅ Audiometria – wymagane co 1 rok<br><small>DLACZEGO: narażenie na hałas</small></p>";
+      hasResults = true;
+      result.innerHTML +=
+        "<p class='required'>✅ <strong>Audiometria</strong> – badanie wymagane (co 1 rok)<br>" +
+        "<small>DLACZEGO: narażenie na hałas wymaga regularnej kontroli słuchu.</small></p>";
     }
+
     if (cb.value === "PYLY") {
-      result.innerHTML += "<p class='required'>✅ Spirometria – wymagane co 2 lata<br><small>DLACZEGO: pyły przemysłowe</small></p>";
+      hasResults = true;
+      result.innerHTML +=
+        "<p class='required'>✅ <strong>Spirometria</strong> – badanie wymagane (co 2 lata)<br>" +
+        "<small>DLACZEGO: narażenie na pyły przemysłowe wpływa na układ oddechowy.</small></p>";
     }
+
     if (cb.value === "ZMIANOWA") {
-      result.innerHTML += "<p class='optional'>⚠️ Konsultacja internistyczna – opcjonalna<br><small>DLACZEGO: praca zmianowa</small></p>";
+      hasResults = true;
+      result.innerHTML +=
+        "<p class='optional'>⚠️ <strong>Konsultacja internistyczna</strong> – badanie opcjonalne<br>" +
+        "<small>DLACZEGO: praca zmianowa może wpływać na rytm dobowy i zdrowie ogólne.</small></p>";
     }
   });
 
-  if (result.innerHTML === "") {
-    result.innerHTML = "<em>Brak badań dla wybranych parametrów</em>";
+  if (!hasResults) {
+    result.innerHTML +=
+      "<p class='note'><em>Brak badań dla wybranych parametrów.</em></p>";
   }
+
+  // Subtelna sugestia skali
+  result.innerHTML +=
+    "<p class='note' style='margin-top:10px;'><em>" +
+    "Takie podejście pozwala w analogiczny sposób analizować zarówno kilka, " +
+    "jak i bardzo wiele narażeń – bez zmiany sposobu pracy." +
+    "</em></p>";
 }
 </script>
 
